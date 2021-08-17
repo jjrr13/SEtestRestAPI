@@ -53,9 +53,7 @@ public class JWTServiceImpl implements JWTService {
 	public boolean validate(String token) {
 
 		try {
-
 			getClaims(token);
-
 			return true;
 		} catch (JwtException | IllegalArgumentException e) {
 			return false;
@@ -87,7 +85,7 @@ public class JWTServiceImpl implements JWTService {
 	}
 
 	@Override
-	public String limpiarToken(String token) {
+	public String limpiarToken(String token) {//validar el prefijo
 		if (token != null && token.startsWith(TOKEN_PREFIX)) {
 			return token.replace(TOKEN_PREFIX, "");
 		}

@@ -22,8 +22,6 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /*@Autowired
-    private LoginSuccessHandler successHandler;*/
 
     @Autowired
     private JpaUserDetailsService userDetailsService;
@@ -39,16 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
             .antMatchers("/login").permitAll()
             .anyRequest().authenticated()
-                /*.and()
-                .addFilterBefore( new LoginFilter("/login", authenticationManager()),
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore( new JwtFilter(),
-                        UsernamePasswordAuthenticationFilter.class) ;*/
-                /*.and()
-                        .formLogin()
-                        .successHandler(successHandler)
-                        *//*.loginPage("/login")*//*
-                        .permitAll()*/
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtService))//Valida el loguin
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtService))//validan el token
@@ -56,23 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-
-    /*@Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Creamos una cuenta de usuario por default ( cambiar por base de datos)
-
-       *//* auth.inMemoryAuthentication()//en memoria
-                .withUser("srJJ")
-                .password("1213")
-                .roles("ADMIN");*//*
-    }
-*/
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 
     @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception
