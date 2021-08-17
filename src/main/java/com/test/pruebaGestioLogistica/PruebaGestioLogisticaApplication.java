@@ -16,6 +16,12 @@ public class PruebaGestioLogisticaApplication implements CommandLineRunner {
 		SpringApplication.run(PruebaGestioLogisticaApplication.class, args);
 	}
 
+	/**
+	 * Generea contraseñas encryptadas para guardar en la base de datos y hacer pruebas, intentar desacoplar esto y e
+	 * en el la creacion de nuevo usuario generar y guardar en la BBDD
+	 * @param args
+	 * @throws Exception
+	 */
 	@Override
 	public void run(String... args) throws Exception {
 		String password1 = "1213";
