@@ -13,4 +13,9 @@ public interface IServiceEntrega {
     public Entrega findById(Long id);
 
     public void delete(Long id);
+
+    public boolean validateIdentificacion(String tipoEntrega, String identificacion);
+
+    public Double generateDiscount(String tipoEntrega, Integer cantidad_productos);
+
 }
