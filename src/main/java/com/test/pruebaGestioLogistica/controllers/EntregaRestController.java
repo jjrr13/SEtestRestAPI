@@ -46,6 +46,24 @@ public class EntregaRestController {
 
     @PostMapping
     public ResponseEntity<Entrega> create(@RequestBody Entrega entrega) {
+        if (entrega == null) {
+            throw new BadRequestException("entrega: " + entrega);
+        }
+
+        if (iServiceEntrega.validateIdentificacion(entrega.getTipoLogistica().toString(), entrega.getIdentificacion_transporte())){
+            entrega.setDecuento(
+                    iServiceEntrega.generateDiscount(entrega.getTipoLogistica().toString(), entrega.getCantidad_producto())
+            );
+        }
+        else{
+            if ("MARITIMA".equalsIgnoreCase(entrega.getTipoLogistica().toString())){
+                throw new BadRequestException("El tipo de logistica MARITIMA: Debe contener 4 letras al inicio y 3 números al final");
+            }
+            else if("TERRESTRE".equalsIgnoreCase(entrega.getTipoLogistica().toString()) ){
+                throw new BadRequestException("El tipo de logistica TERRESTRE: Debe contener 3 letras al inicio y 3 números al final");
+            }
+        }
+
         Entrega newEntrega = iServiceEntrega.save(entrega);
 
         if (newEntrega == null) {
@@ -73,16 +91,29 @@ public class EntregaRestController {
 
     @PutMapping
     public ResponseEntity<Entrega> update(@RequestBody Entrega entrega) {
-        Entrega newProducto = iServiceEntrega.findById(entrega.getId());
-
         if (entrega == null) {
             throw new BadRequestException("entrega: " + entrega);
         }
 
-        if (newProducto == null) {
+        Entrega newEntrega= iServiceEntrega.findById(entrega.getId());
+
+        if (newEntrega == null) {
             throw new DontFindElementException("id: " + entrega.getId());
         }
         else {
+            if (iServiceEntrega.validateIdentificacion(entrega.getTipoLogistica().toString(), entrega.getIdentificacion_transporte())){
+                entrega.setDecuento(
+                        iServiceEntrega.generateDiscount(entrega.getTipoLogistica().toString(), entrega.getCantidad_producto())
+                );
+            }
+            else{
+                if ("MARITIMA".equalsIgnoreCase(entrega.getTipoLogistica().toString())){
+                    throw new BadRequestException("El tipo de logistica MARITIMA: Debe contener 4 letras al inicio y 3 números al final");
+                }
+                else if("TERRESTRE".equalsIgnoreCase(entrega.getTipoLogistica().toString()) ){
+                    throw new BadRequestException("El tipo de logistica TERRESTRE: Debe contener 3 letras al inicio y 3 números al final");
+                }
+            }
             iServiceEntrega.save(entrega);
             return ResponseEntity.ok(entrega);
         }
