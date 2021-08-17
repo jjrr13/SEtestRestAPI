@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * Manejador del loguin exitoso
+ */
 @Component
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 
@@ -23,7 +26,15 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 	
 	@Autowired
     private LocaleResolver localeResolver;
-	
+
+	/**
+	 * Metodo que se desencadena cuando el login es exitoso, aqui se puede retornar a una vista o al Home
+	 * @param request
+	 * @param response
+	 * @param authentication
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -45,6 +56,4 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 		
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
-
-	
 }
