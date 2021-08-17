@@ -62,6 +62,10 @@ public class Entrega {
     //@JoinColumn(name = "fk_id_cliente", referencedColumnName = "id")
     private Integer fk_id_cliente;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "fk_tipo_logistica")
+    private TipoLogistica tipoLogistica;
+
     /*Getters and Setters*/
 
     public Long getId() {
@@ -150,5 +154,13 @@ public class Entrega {
 
     public void setFk_id_cliente(Integer fk_id_cliente) {
         this.fk_id_cliente = fk_id_cliente;
+    }
+
+    public TipoLogistica getTipoLogistica() {
+        return tipoLogistica;
+    }
+
+    public void setTipoLogistica(TipoLogistica tipoLogistica) {
+        this.tipoLogistica = tipoLogistica;
     }
 }
