@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+/**
+ * Se encarga de gestionar y desencadenar el proceso de la autorizacion a los recursos de la pagina que se tengan configuradas
+ */
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	
 	private JWTService jwtService;
@@ -24,6 +26,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		this.jwtService = jwtService;
 	}
 
+	/**
+	 * Crear el filtro interno para que sea reconocido por el contenedor de springboot
+	 * @param request
+	 * @param response
+	 * @param chain
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -46,6 +56,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		
 	}
 
+	/**
+	 * Valida la si el header continen una autorizacion de tipo Bearer
+	 * @param header
+	 * @return
+	 */
 	protected boolean requiresAuthentication(String header) {
 
 		if (header == null || !header.startsWith(JWTServiceImpl.TOKEN_PREFIX)) {
