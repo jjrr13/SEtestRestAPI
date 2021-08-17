@@ -23,12 +23,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Valida los datos ingresados para el login (Username - Password)
+ */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;
 	private JWTService jwtService;
 
+	/**
+	 * Agrega el filtro y designa en donde se generara el login
+	 * @param authenticationManager
+	 * @param jwtService
+	 */
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTService jwtService) {
 		this.authenticationManager = authenticationManager;
 		setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/login", "POST"));
@@ -36,6 +43,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		this.jwtService = jwtService;
 	}
 
+	/**
+	 * Aqui es donde aterrizan los intento de logueo y valida si fue exitoso o no
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws AuthenticationException
+	 */
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
@@ -75,6 +89,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		return authenticationManager.authenticate(authToken);
 	}
 
+	/**
+	 * Se invoca cundo el proceso de logueo fue exitoso
+	 * @param request
+	 * @param response
+	 * @param chain
+	 * @param authResult
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
@@ -93,6 +116,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		response.setContentType("application/json");
 	}
 
+	/**
+	 * Se invica cuando la peticion de logueo fue fallida por credenciales malas
+	 * @param request
+	 * @param response
+	 * @param failed
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException failed) throws IOException, ServletException {
