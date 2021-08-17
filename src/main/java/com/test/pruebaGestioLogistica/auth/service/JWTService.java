@@ -7,6 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * Interfaz para desacoplar la logica de JWT y porder reutilizar y hacer cambios en futuro
+ */
 public interface JWTService {
 
 	public String create(Authentication auth) throws IOException;

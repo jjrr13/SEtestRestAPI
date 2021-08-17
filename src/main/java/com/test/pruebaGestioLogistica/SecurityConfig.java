@@ -32,10 +32,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JWTService jwtService;
 
+    /**
+     * Se configuran y se agregan los filtro para las peticiones, en este caso de hagregan dos filtros
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-            .antMatchers("/login").permitAll()
+            .antMatchers("/v2/api-docs", "/swagger-ui.html").permitAll()
+                /*.antMatchers("/login").permitAll()*/
             .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtService))//Valida el loguin
@@ -44,11 +50,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
+    /**
+     * Encoder la password para mayor seguirdad, requerida por spring-boot
+     * @return
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Se encarga de desencadenar la autenticacion con la base de datos de los usuarios
+     * @param build
+     * @throws Exception
+     */
     @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception
     {

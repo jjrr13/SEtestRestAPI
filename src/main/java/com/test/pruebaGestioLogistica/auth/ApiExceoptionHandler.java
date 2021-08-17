@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Clase manejadora de las excepciones persanalizadas, en este caso para el api
+ */
 @ControllerAdvice
 public class ApiExceoptionHandler {
 

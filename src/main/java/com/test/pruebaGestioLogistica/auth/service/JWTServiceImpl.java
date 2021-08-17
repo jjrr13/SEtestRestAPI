@@ -19,6 +19,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * Se encarga de la gestion y la logica implementa en el interfaz de JWT para las autorizaciones de los recursos
+ */
 @Component
 public class JWTServiceImpl implements JWTService {
 
@@ -27,7 +30,13 @@ public class JWTServiceImpl implements JWTService {
 	public static final long EXPIRATION_DATE = 3600000L;//= 1 hora (si se necesita mas poner 3600000L * cantidad de horas
 	public static final String TOKEN_PREFIX = "Bearer ";
 	public static final String HEADER_STRING = "Authorization";
-	
+
+	/**
+	 * Crea el token para enviar a la cliente
+	 * @param auth
+	 * @return
+	 * @throws IOException
+	 */
 	@Override
 	public String create(Authentication auth) throws IOException {
 
@@ -49,6 +58,11 @@ public class JWTServiceImpl implements JWTService {
 		return token;
 	}
 
+	/**
+	 * Valida si el llego el token con la firma
+	 * @param token
+	 * @return
+	 */
 	@Override
 	public boolean validate(String token) {
 
@@ -61,6 +75,11 @@ public class JWTServiceImpl implements JWTService {
 
 	}
 
+	/**
+	 * Otiene los claims para poder guardar parametroa adicionales o desencadenar mas filtros
+	 * @param token
+	 * @return
+	 */
 	@Override
 	public Claims getClaims(String token) {
 		Claims claims = Jwts.parser().setSigningKey(SECRET.getBytes())
@@ -73,6 +92,12 @@ public class JWTServiceImpl implements JWTService {
 		return getClaims(token).getSubject();
 	}
 
+	/**
+	 * Obtiene y almacena los roles del usuario en memoria
+	 * @param token
+	 * @return
+	 * @throws IOException
+	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getRoles(String token) throws IOException {
 		Object roles = getClaims(token).get("authorities");
@@ -84,6 +109,11 @@ public class JWTServiceImpl implements JWTService {
 		return authorities;
 	}
 
+	/**
+	 * Limpia la cabecera, extrae y retorn el token de tipo Bearer
+	 * @param token
+	 * @return
+	 */
 	@Override
 	public String limpiarToken(String token) {//validar el prefijo
 		if (token != null && token.startsWith(TOKEN_PREFIX)) {
