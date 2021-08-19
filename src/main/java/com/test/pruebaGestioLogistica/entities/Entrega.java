@@ -1,5 +1,6 @@
 package com.test.pruebaGestioLogistica.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,36 +18,25 @@ public class Entrega {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //fk_id_producto
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_id_producto", referencedColumnName = "id")
-    private Producto producto;
-
     @NotEmpty
     private Integer cantidad_producto;
 
-    @NotNull
-    @Column(name = "fecha_registro")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date fecha_registro;
+    @NotEmpty
+    private Double descuento;
 
     @NotNull
     @Column(name = "fecha_entraga")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fecha_entraga;
 
-    //fk_sitio_entrega_cliente
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_sitio_entrega_cliente", referencedColumnName = "id")
-    private SitioEntrega sitioEntrega;
-
-
-    @NotEmpty
-    private Double precio;
+    @NotNull
+    @Column(name = "fecha_registro")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date fecha_registro;
 
     @NotEmpty
     private String identificacion_transporte;
@@ -54,17 +44,34 @@ public class Entrega {
     @NotEmpty
     private String numero_guia;
 
-    @NotEmpty
-    private Double decuento;
 
-    //fk_id_cliente
-    //@ManyToOne(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@JoinColumn(name = "fk_id_cliente", referencedColumnName = "id")
-    private Integer fk_id_cliente;
+    @NotEmpty
+    private Double precio;
+
+    @NotEmpty
+    private Long fk_id_cliente;
+
+    //@Transient
+    @JoinColumn(name = "nombreCliente", insertable = false, updatable = false)
+    private String nombreCliente;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "fk_tipo_logistica")
     private TipoLogistica tipoLogistica;
+
+    @NotEmpty
+    private Long fk_id_producto;
+
+    //@Transient
+    @JoinColumn(name = "nombreProducto", insertable = false, updatable = false)
+    private String nombreProducto;
+
+    @NotEmpty
+    private Long fk_id_almacen_cliente;
+
+    //@Transient
+    @JoinColumn(name = "nombreAlmacen", insertable = false, updatable = false)
+    private String nombreAlmacen;
 
     /*Getters and Setters*/
 
@@ -76,14 +83,6 @@ public class Entrega {
         this.id = id;
     }
 
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
     public Integer getCantidad_producto() {
         return cantidad_producto;
     }
@@ -92,12 +91,12 @@ public class Entrega {
         this.cantidad_producto = cantidad_producto;
     }
 
-    public Date getFecha_registro() {
-        return fecha_registro;
+    public Double getDescuento() {
+        return descuento;
     }
 
-    public void setFecha_registro(Date fecha_registro) {
-        this.fecha_registro = fecha_registro;
+    public void setDescuento(Double decuento) {
+        this.descuento = decuento;
     }
 
     public Date getFecha_entraga() {
@@ -108,20 +107,12 @@ public class Entrega {
         this.fecha_entraga = fecha_entraga;
     }
 
-    public SitioEntrega getSitioEntrega() {
-        return sitioEntrega;
+    public Date getFecha_registro() {
+        return fecha_registro;
     }
 
-    public void setSitioEntrega(SitioEntrega sitioEntrega) {
-        this.sitioEntrega = sitioEntrega;
-    }
-
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setFecha_registro(Date fecha_registro) {
+        this.fecha_registro = fecha_registro;
     }
 
     public String getIdentificacion_transporte() {
@@ -140,20 +131,28 @@ public class Entrega {
         this.numero_guia = numero_guia;
     }
 
-    public Double getDecuento() {
-        return decuento;
+    public Double getPrecio() {
+        return precio;
     }
 
-    public void setDecuento(Double decuento) {
-        this.decuento = decuento;
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 
-    public Integer getFk_id_cliente() {
+    public Long getFk_id_cliente() {
         return fk_id_cliente;
     }
 
-    public void setFk_id_cliente(Integer fk_id_cliente) {
+    public void setFk_id_cliente(Long fk_id_cliente) {
         this.fk_id_cliente = fk_id_cliente;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
     }
 
     public TipoLogistica getTipoLogistica() {
@@ -162,5 +161,37 @@ public class Entrega {
 
     public void setTipoLogistica(TipoLogistica tipoLogistica) {
         this.tipoLogistica = tipoLogistica;
+    }
+
+    public Long getFk_id_producto() {
+        return fk_id_producto;
+    }
+
+    public void setFk_id_producto(Long fk_id_producto) {
+        this.fk_id_producto = fk_id_producto;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    public Long getFk_id_almacen_cliente() {
+        return fk_id_almacen_cliente;
+    }
+
+    public void setFk_id_almacen_cliente(Long fk_id_almacen_cliente) {
+        this.fk_id_almacen_cliente = fk_id_almacen_cliente;
+    }
+
+    public String getNombreAlmacen() {
+        return nombreAlmacen;
+    }
+
+    public void setNombreAlmacen(String nombreAlmacen) {
+        this.nombreAlmacen = nombreAlmacen;
     }
 }
