@@ -20,19 +20,33 @@ public class EntregaRestController {
     @GetMapping(value = "/listar")
     private ResponseEntity<List<Entrega>> listAll() {
 
-        List<Entrega> entrgas = iServiceEntrega.listAll();
+        List<Entrega> entrgas = iServiceEntrega.obtenerEntregasConNombres();
 
         if (entrgas == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(entrgas);
         }
+    }
 
+    @RequestMapping(value = "listar/ /{id}", method = RequestMethod.GET)
+    private ResponseEntity<List<Entrega>> listByClient(@PathVariable("id") Long id) {
+        if (id < 0) {
+            throw new BadRequestException("id: " + id);
+        }
+        List<Entrega> entrgas = iServiceEntrega.listByClient(id);
+
+        if (entrgas == null) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(entrgas);
+        }
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity findById(@PathVariable("id") Long id) {
-        Entrega entrega = iServiceEntrega.findById(id);
+        //System.out.println("findById - " + id);
+        Entrega entrega = iServiceEntrega.findById2(id);
         if (id < 0) {
             throw new BadRequestException("id: " + id);
         }
@@ -51,31 +65,31 @@ public class EntregaRestController {
         }
 
         if (iServiceEntrega.validateIdentificacion(entrega.getTipoLogistica().toString(), entrega.getIdentificacion_transporte())){
-            entrega.setDecuento(
+            entrega.setDescuento(
                     iServiceEntrega.generateDiscount(entrega.getTipoLogistica().toString(), entrega.getCantidad_producto())
             );
         }
         else{
             if ("MARITIMA".equalsIgnoreCase(entrega.getTipoLogistica().toString())){
-                throw new BadRequestException("El tipo de logistica MARITIMA: Debe contener 4 letras al inicio y 3 números al final");
+                throw new BadRequestException("La identificacion para el tipo de logistica MARITIMA: Debe contener 4 letras al inicio y 3 números al final: " +entrega.getIdentificacion_transporte() );
             }
             else if("TERRESTRE".equalsIgnoreCase(entrega.getTipoLogistica().toString()) ){
-                throw new BadRequestException("El tipo de logistica TERRESTRE: Debe contener 3 letras al inicio y 3 números al final");
+                throw new BadRequestException("La identificacion para el tipo de logistica TERRESTRE: Debe contener 3 letras al inicio y 3 números al final: " + entrega.getIdentificacion_transporte());
             }
         }
 
-        Entrega newEntrega = iServiceEntrega.save(entrega);
+        Long idEntrega = iServiceEntrega.insertar(entrega);
 
-        if (newEntrega == null) {
+        if (idEntrega == null) {
             throw new BadRequestException("entrega: " + entrega);
         } else {
-            return ResponseEntity.ok(newEntrega);
+            return ResponseEntity.ok(iServiceEntrega.findById2(idEntrega));
         }
     }
 
     @DeleteMapping(value = "{id}")
     public ResponseEntity<Entrega> deleteById(@PathVariable("id") Long id) {
-        Entrega entrega = iServiceEntrega.findById(id);
+        Entrega entrega = iServiceEntrega.findById2(id);
 
         if (id < 0) {
             throw new BadRequestException("id: " + id);
@@ -95,14 +109,14 @@ public class EntregaRestController {
             throw new BadRequestException("entrega: " + entrega);
         }
 
-        Entrega newEntrega= iServiceEntrega.findById(entrega.getId());
+        Entrega newEntrega= iServiceEntrega.findById2( entrega.getId() );
 
         if (newEntrega == null) {
             throw new DontFindElementException("id: " + entrega.getId());
         }
         else {
             if (iServiceEntrega.validateIdentificacion(entrega.getTipoLogistica().toString(), entrega.getIdentificacion_transporte())){
-                entrega.setDecuento(
+                entrega.setDescuento(
                         iServiceEntrega.generateDiscount(entrega.getTipoLogistica().toString(), entrega.getCantidad_producto())
                 );
             }
@@ -114,7 +128,7 @@ public class EntregaRestController {
                     throw new BadRequestException("El tipo de logistica TERRESTRE: Debe contener 3 letras al inicio y 3 números al final");
                 }
             }
-            iServiceEntrega.save(entrega);
+            iServiceEntrega.update(entrega);
             return ResponseEntity.ok(entrega);
         }
     }

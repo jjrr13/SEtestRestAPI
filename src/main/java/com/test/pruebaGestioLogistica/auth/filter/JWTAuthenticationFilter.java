@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,6 +27,7 @@ import java.util.Map;
 /**
  * Valida los datos ingresados para el login (Username - Password)
  */
+//@CrossOrigin(origins = "*")
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;
@@ -36,6 +38,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	 * @param authenticationManager
 	 * @param jwtService
 	 */
+
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTService jwtService) {
 		this.authenticationManager = authenticationManager;
 		setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/login", "POST"));
@@ -64,6 +67,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		} else {//datos desde json
 			Usuario user = null;
 			try {
+
+				//System.out.println( new ObjectMapper().readValue(request.getInputStream(), Object.class ) );
 				
 				user = new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
 				

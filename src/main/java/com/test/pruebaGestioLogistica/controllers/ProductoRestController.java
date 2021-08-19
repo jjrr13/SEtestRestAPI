@@ -20,7 +20,24 @@ public class ProductoRestController {
     @GetMapping(value = "/listar")
     private ResponseEntity<List<Producto>> listAll() {
 
-        List<Producto> porductos = iServiceProducto.listAll();
+        List<Producto> porductos = iServiceProducto.obtenerConNombreCliente();
+
+        if (porductos == null) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(porductos);
+        }
+
+    }
+
+    @RequestMapping(value = "listar/cliente/{id}", method = RequestMethod.GET)
+    private ResponseEntity<List<Producto>> listByClient(@PathVariable("id") Long id) {
+
+        if (id < 0) {
+            throw new BadRequestException("id: " + id);
+        }
+
+        List<Producto> porductos = iServiceProducto.listByClient(id);
 
         if (porductos == null) {
             return ResponseEntity.noContent().build();
@@ -32,7 +49,7 @@ public class ProductoRestController {
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity findById(@PathVariable("id") Long id) {
-        Producto producto = iServiceProducto.findById(id);
+        Producto producto = iServiceProducto.findById2(id);
         if (id < 0) {
             throw new BadRequestException("id: " + id);
         }
@@ -46,18 +63,18 @@ public class ProductoRestController {
 
     @PostMapping
     public ResponseEntity<Producto> create(@RequestBody Producto producto) {
-        Producto newProducto = iServiceProducto.save(producto);
+        Integer idProducto = iServiceProducto.insertar(producto);
 
-        if (newProducto == null) {
+        if (idProducto == null) {
             throw new BadRequestException("producto: " + producto);
         } else {
-            return ResponseEntity.ok(newProducto);
+            return ResponseEntity.ok(iServiceProducto.findById2(idProducto.longValue()) ) ;
         }
     }
 
     @DeleteMapping(value = "{id}")
     public ResponseEntity<Producto> deleteById(@PathVariable("id") Long id) {
-        Producto producto = iServiceProducto.findById(id);
+        Producto producto = iServiceProducto.findById2(id);
 
         if (id < 0) {
             throw new BadRequestException("id: " + id);
@@ -73,7 +90,7 @@ public class ProductoRestController {
 
     @PutMapping
     public ResponseEntity<Producto> update(@RequestBody Producto producto) {
-        Producto newProducto = iServiceProducto.findById(producto.getId());
+        Producto newProducto = iServiceProducto.findById2(producto.getId());
 
         if (producto == null) {
             throw new BadRequestException("porductos: " + producto);
@@ -83,7 +100,7 @@ public class ProductoRestController {
             throw new DontFindElementException("id: " + producto.getId());
         }
         else {
-            iServiceProducto.save(producto);
+            iServiceProducto.update(producto);
             return ResponseEntity.ok(producto);
         }
     }

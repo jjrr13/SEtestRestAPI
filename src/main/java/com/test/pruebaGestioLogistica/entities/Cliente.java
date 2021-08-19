@@ -1,6 +1,8 @@
 package com.test.pruebaGestioLogistica.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
@@ -45,12 +47,19 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "fk_id_user", referencedColumnName = "id")
     private Usuario user;
 
-    @OneToMany(mappedBy = "fk_id_cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
+   /* @JsonManagedReference
+    @OneToMany(mappedBy = "fk_id_cliente", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)*/
+    private List<Entrega> Entregas = new ArrayList<>();
+
+    @Transient
+    /*@LazyCollection(LazyCollectionOption.FALSE)
     @JsonManagedReference
-    private List<Entrega> Entregas;
+    @OneToMany(mappedBy = "fk_id_cliente", cascade = CascadeType.ALL, orphanRemoval = true)*/
+    private List<Producto> productos = new ArrayList<>();
+
 
     public Cliente() {
-        Entregas = new ArrayList<Entrega>();
     }
 
     public Long getId() {
@@ -93,15 +102,17 @@ public class Cliente implements Serializable {
         this.email = email;
     }
 
-    public List<Entrega> getEntregas() {
+    /*public List<Entrega> getEntregas() {
         return Entregas;
     }
 
     public void setEntregas(List<Entrega> Entregas) {
         this.Entregas = Entregas;
-    }
+    }*/
 
     public void addEntrega(Entrega Entrega) {
         Entregas.add(Entrega);
     }
+
+
 }
