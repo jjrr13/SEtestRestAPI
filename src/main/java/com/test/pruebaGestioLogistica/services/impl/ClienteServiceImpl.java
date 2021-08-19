@@ -21,6 +21,11 @@ public class ClienteServiceImpl implements IServiceCliente {
     }
 
     @Override
+    public List<Cliente> listSelect() {
+        return (List<Cliente>) iClienteRepository.findAll();
+    }
+
+    @Override
     public Cliente save(Cliente cliente) {
         return iClienteRepository.save(cliente);
     }

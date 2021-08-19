@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
 public class PruebaGestioLogisticaApplication implements CommandLineRunner {
@@ -29,4 +33,6 @@ public class PruebaGestioLogisticaApplication implements CommandLineRunner {
 		System.out.println(passwordEncoder.encode(password1));
 		System.out.println(passwordEncoder.encode(password2));
 	}
+
+
 }

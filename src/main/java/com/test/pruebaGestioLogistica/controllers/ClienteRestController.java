@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping(value = "api/clientes")
 public class ClienteRestController {
@@ -21,6 +22,20 @@ public class ClienteRestController {
     private ResponseEntity<List<Cliente>> listAll(){
 
         List<Cliente> clientees = iServiceCliente.listAll();
+
+        if (clientees == null ){
+            return ResponseEntity.noContent().build();
+        }
+        else{
+            return ResponseEntity.ok( clientees );
+        }
+
+    }
+
+    @GetMapping(value = "/listSelect")
+    private ResponseEntity<List<Cliente>> listSelect(){
+
+        List<Cliente> clientees = iServiceCliente.listSelect();
 
         if (clientees == null ){
             return ResponseEntity.noContent().build();
