@@ -10,6 +10,16 @@ public interface IServiceEntrega {
 
     public Entrega save(Entrega entrega);
 
+    public List<Entrega> obtenerEntregasConNombres();
+
+    public List<Entrega> listByClient(Long id);
+
+    public Long insertar(Entrega entrega);
+
+    public Integer update(Entrega entrega);
+
+    public Entrega findById2(Long id);
+
     public Entrega findById(Long id);
 
     public void delete(Long id);

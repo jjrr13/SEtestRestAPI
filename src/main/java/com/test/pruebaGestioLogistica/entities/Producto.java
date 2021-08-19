@@ -1,9 +1,13 @@
 package com.test.pruebaGestioLogistica.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "productos")
@@ -16,16 +20,24 @@ public class Producto implements Serializable {
     @NotNull
     private String nombre;
 
+    @NotNull
+    private String descripcion;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "fk_tipo_logistica")
     private TipoLogistica tipoLogistica;
 
-    /*@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_tipo_logistica", referencedColumnName = "id")
-    private TipoLogisticaOld tipoLogisticaOld;*/
 
-    @NotNull
-    private String descripcion;
+    /*@JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "fk_id_cliente", nullable = false)
+    private Cliente cliente;*/
+
+    private Long fk_id_cliente;
+
+    //@Transient
+    @JoinColumn(name = "nombreCliente", insertable = false, updatable = false)
+    private String nombreCliente;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "create_at")
@@ -37,6 +49,22 @@ public class Producto implements Serializable {
     }
 
     /*Getters y Setters*/
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public Long getFk_id_cliente() {
+        return fk_id_cliente;
+    }
+
+    public void setFk_id_cliente(Long fk_id_cliente) {
+        this.fk_id_cliente = fk_id_cliente;
+    }
 
     public Long getId() {
         return id;
@@ -54,13 +82,7 @@ public class Producto implements Serializable {
         this.nombre = nombre;
     }
 
-    /*public TipoLogisticaOld getTipoLogistica() {
-        return tipoLogisticaOld;
-    }
 
-    public void setTipoLogistica(TipoLogisticaOld tipoLogisticaOld) {
-        this.tipoLogisticaOld = tipoLogisticaOld;
-    }*/
 
     public TipoLogistica getTipoLogistica() {
         return tipoLogistica;

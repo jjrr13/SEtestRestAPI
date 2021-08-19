@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "sitio_entrega")
-public class SitioEntrega implements Serializable {
+@Table(name = "almacenes")
+public class Almacen implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,12 +16,19 @@ public class SitioEntrega implements Serializable {
     @NotNull
     private String nombre;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_id_tipo_logistica", referencedColumnName = "id")
-    private TipoLogisticaOld tipoLogisticaOld;
-
     @NotNull
     private String descripcion;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "fk_id_tipo_logistica")
+    private TipoLogistica tipoLogistica;
+
+
+    private Long fk_id_cliente;
+
+    //@Transient
+    @JoinColumn(name = "nombreCliente", insertable = false, updatable = false)
+    private String nombreCliente;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "create_at")
@@ -33,6 +40,19 @@ public class SitioEntrega implements Serializable {
     }
 
     /*Getters y Setters*/
+
+    public Long getFk_id_cliente() {
+        return fk_id_cliente;
+    }
+
+    public void setFk_id_cliente(Long fk_id_cliente) {
+        this.fk_id_cliente = fk_id_cliente;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
 
     public Long getId() {
         return id;
@@ -50,12 +70,12 @@ public class SitioEntrega implements Serializable {
         this.nombre = nombre;
     }
 
-    public TipoLogisticaOld getTipoLogistica() {
-        return tipoLogisticaOld;
+    public TipoLogistica getTipoLogistica() {
+        return tipoLogistica;
     }
 
-    public void setTipoLogistica(TipoLogisticaOld tipoLogisticaOld) {
-        this.tipoLogisticaOld = tipoLogisticaOld;
+    public void setTipoLogistica(TipoLogistica tipoLogistica) {
+        this.tipoLogistica = tipoLogistica;
     }
 
     public String getDescripcion() {
