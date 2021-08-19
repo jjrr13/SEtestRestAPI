@@ -61,20 +61,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-   /* @Bean
+   @Bean
     CorsConfigurationSource corsConfigurationSource() {
         System.out.println("Entro al security  ");
 
         CorsConfiguration configuration = new CorsConfiguration();
-        *//*configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.addAllowedHeader("*");
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
-        configuration.setAllowCredentials(true);*//*
+        configuration.setAllowCredentials(true);
         //the below three lines will add the relevant CORS response headers
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/**", configuration);
         return source;
-    }*/
+    }
 
 
 
