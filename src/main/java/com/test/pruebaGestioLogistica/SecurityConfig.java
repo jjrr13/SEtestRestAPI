@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .cors().configurationSource( corsConfigurationSource ())
+                .cors().configurationSource( corsConfigurationSource())
                 .and()
                 .authorizeRequests().antMatchers("/v2/api-docs", "/swagger-ui.html", "/**").permitAll()
                 /*.antMatchers("/login").permitAll()*/
@@ -66,8 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("Entro al security  ");
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedOrigins(Arrays.asList("https://test-api-se.herokuapp.com", "http://localhost:4200"));
+        //configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("https://testfrontangularse.web.app", "http://localhost:4200"));
         configuration.addAllowedHeader("*");
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
         configuration.setAllowCredentials(true);//
