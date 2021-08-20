@@ -90,7 +90,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		username = username.trim();
 		
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
-		
+
+		System.out.println("token");
+		System.out.println(authToken);
+		System.out.println("otro");
+		System.out.println(authenticationManager.authenticate(authToken));
+		System.out.println("fin otro");
+
 		return authenticationManager.authenticate(authToken);
 	}
 

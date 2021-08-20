@@ -30,15 +30,15 @@ public interface IAlmacenRepository extends CrudRepository<Almacen, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO almacenes ( nombre, descripcion, fk_id_tipo_logistica, fk_id_cliente ) " +
-            " VALUES ( :nombre, :descripcion, :fk_id_tipo_logistica, :fk_id_cliente ) "
+    @Query(value = "INSERT INTO almacenes ( nombre, descripcion, fk_id_tipo_logistica, fk_id_cliente, create_at ) " +
+            " VALUES ( :nombre, :descripcion, :fk_id_tipo_logistica, :fk_id_cliente, :create_at ) "
             , nativeQuery=true)
     public Integer insertar(
             @Param("nombre") String nombre,
             @Param("descripcion") String descripcion ,
             @Param("fk_id_tipo_logistica") Integer fk_id_tipo_logistica ,
-            @Param("fk_id_cliente") Long fk_id_cliente
-
+            @Param("fk_id_cliente") Long fk_id_cliente,
+            @Param("create_at") Date create_at
     );
 
     @Query(value = "SELECT a.*, "
@@ -51,14 +51,15 @@ public interface IAlmacenRepository extends CrudRepository<Almacen, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE almacenes SET nombre = :nombre, descripcion = :descripcion, fk_id_tipo_logistica = :fk_tipo_logistica  " +
+    @Query(value = "UPDATE almacenes SET nombre = :nombre, descripcion = :descripcion, fk_id_tipo_logistica = :fk_tipo_logistica, create_at = :create_at  " +
             " WHERE id = :id  "
             , nativeQuery=true)
     public Integer update(
             @Param("id") Long id,
             @Param("nombre") String nombre,
             @Param("descripcion") String descripcion ,
-            @Param("fk_tipo_logistica") Integer fk_tipo_logistica
+            @Param("fk_tipo_logistica") Integer fk_tipo_logistica,
+            @Param("create_at") Date create_at
     );
 
 }

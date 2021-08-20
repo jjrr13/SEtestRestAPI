@@ -37,7 +37,8 @@ public class AlmacenServiceImpl implements IServiceAlmacen {
                 almacen.getNombre(),
                 almacen.getDescripcion(),
                 almacen.getTipoLogistica().ordinal(),
-                almacen.getFk_id_cliente()
+                almacen.getFk_id_cliente(),
+                new Date()
         );
     }
 
@@ -52,7 +53,8 @@ public class AlmacenServiceImpl implements IServiceAlmacen {
                 almacen.getId(),
                 almacen.getNombre(),
                 almacen.getDescripcion(),
-                almacen.getTipoLogistica().ordinal()
+                almacen.getTipoLogistica().ordinal(),
+                new Date()
         );
     }
 

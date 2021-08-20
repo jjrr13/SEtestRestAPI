@@ -1,6 +1,3 @@
 /*Usuarios Genericos*/
---INSERT INTO usuarios_genericos (enabled, password, username ) VALUES (true, "$653io#$%5778", "sr-JJ");
---INSERT INTO usuarios_genericos (enabled, password, username ) VALUES (true, "1234", "user1");
---INSERT INTO usuarios_genericos (enabled, password, username ) VALUES (true, "12342", "user2");
---INSERT INTO usuarios_genericos (enabled, password, username ) VALUES (true, "12343", "user3");
---INSERT INTO usuarios_genericos (enabled, password, username ) VALUES (true, "12343", "user4");
+--INSERT INTO usuarios (enabled, password, username ) VALUES (true, "$2a$10$RTCoh2rOPBA00pmdPV5Jp.UPq4w.oHKlEeJG1mofDMIMIDdrL7ZD.", "sr-JJ");
+--INSERT INTO usuarios (enabled, password, username ) VALUES (true, "$2a$10$RTCoh2rOPBA00pmdPV5Jp.UPq4w.oHKlEeJG1mofDMIMIDdrL7ZD.", "Otro");
