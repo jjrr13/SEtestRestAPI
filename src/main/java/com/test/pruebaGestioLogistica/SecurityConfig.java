@@ -27,7 +27,7 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 
-
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
