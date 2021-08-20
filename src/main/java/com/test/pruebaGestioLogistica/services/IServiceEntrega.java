@@ -14,7 +14,7 @@ public interface IServiceEntrega {
 
     public List<Entrega> listByClient(Long id);
 
-    public Long insertar(Entrega entrega);
+    public Integer insertar(Entrega entrega);
 
     public Integer update(Entrega entrega);
 

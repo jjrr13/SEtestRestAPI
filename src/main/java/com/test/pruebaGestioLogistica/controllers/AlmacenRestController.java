@@ -63,6 +63,10 @@ public class AlmacenRestController {
 
     @PostMapping
     public ResponseEntity<Almacen> create(@RequestBody Almacen almacen) {
+        if (almacen == null) {
+            throw new BadRequestException("almacen: " + almacen);
+        }
+
         Integer idAlmacen = iServiceAlmacen.insertar(almacen);
 
         if (idAlmacen == null) {

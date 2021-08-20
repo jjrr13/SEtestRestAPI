@@ -47,7 +47,7 @@ public interface IEntregaRepository extends CrudRepository<Entrega, Long> {
             "   :fk_id_almacen_cliente, :fk_id_cliente, :fk_id_producto, :fk_tipo_logistica " +
             " ) "
             , nativeQuery=true)
-    public Long insertar(
+    public Integer insertar(
             @Param("cantidad_producto") Integer cantidad_producto,
             @Param("descuento") Double descuento ,
             @Param("fecha_entraga") Date fecha_entraga ,

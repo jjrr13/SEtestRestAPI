@@ -37,7 +37,7 @@ public class EntregaServiceImpl implements IServiceEntrega {
     }
 
     @Override
-    public Long insertar(Entrega entrega) {
+    public Integer insertar(Entrega entrega) {
         return iEntregaRepository.insertar(
                 entrega.getCantidad_producto(),
                 entrega.getDescuento(),

@@ -29,7 +29,7 @@ public class EntregaRestController {
         }
     }
 
-    @RequestMapping(value = "listar/ /{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "listar/cliente/{id}", method = RequestMethod.GET)
     private ResponseEntity<List<Entrega>> listByClient(@PathVariable("id") Long id) {
         if (id < 0) {
             throw new BadRequestException("id: " + id);
@@ -78,12 +78,12 @@ public class EntregaRestController {
             }
         }
 
-        Long idEntrega = iServiceEntrega.insertar(entrega);
+        Integer idEntrega = iServiceEntrega.insertar(entrega);
 
         if (idEntrega == null) {
             throw new BadRequestException("entrega: " + entrega);
         } else {
-            return ResponseEntity.ok(iServiceEntrega.findById2(idEntrega));
+            return ResponseEntity.ok(iServiceEntrega.findById2( new Long(idEntrega) ));
         }
     }
 
